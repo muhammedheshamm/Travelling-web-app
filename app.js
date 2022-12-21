@@ -5,6 +5,7 @@ const app = express();
 const alert = require('alert')
 const session = require('express-session')
 const flash = require('connect-flash');
+const PORT = process.env.PORT || 3000;
 let age = 1000 * 60 * 60 
 let listOfWanttogo = []
 
@@ -224,4 +225,6 @@ app.get('/logout',(req,res) => {
 
 
 
-app.listen(3000);
+app.listen(PORT, () => {
+  console.log(`server started on port ${PORT}`);
+});
