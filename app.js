@@ -136,10 +136,10 @@ app.get('/searchresults', function(req,res){
     //}
     if(user === 'admin' && pass==='admin'){
       req.session.userid=user
-      res.render('/home' , {user : req.session.userid})
+      res.render('home' , {user : req.session.userid})
     }
     else{
-      res.render('/login' , {message : 'Incorrect username or password'})
+      res.render('login' , {message : 'Incorrect username or password'})
     }
   })
 
