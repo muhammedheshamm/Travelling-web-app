@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .wraber {
+            width: 100%;
+            max-width: 650px;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            gap: 50px;
+            background-color: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(3px);
+            padding: 65px;
+            margin: 20px;
+            border-radius: 30px;
+            box-shadow: 0px 0px 62px -23px rgb(0 0 0 / 63%);
+            transition: .3s;
+        }
+        h1 {
+            color: black;
+            text-align: center;
+            -webkit-text-stroke: 1px black;
+            font-size: 55px!important;
+
+        }
+        .cont {
+            color: white;
+            width: fit-content;
+            
+        }
+        form{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        .main { 
+            background: url("background1.jpg") no-repeat center center; 
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            width: 100vw;
+            height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .field{
+            width: 240px;
+            height: 40px;
+            border-radius: 15px;
+            border: 1px solid #bbb;
+            padding-left: 10px;
+            background-color: #ddd;
+            padding-left: 35px;
+        } 
+
+        ::placeholder{
+            color: darkslategray;
+            opacity: .8;
+        }
+        .btnn{
+            padding: 7px 25px;
+            border: none;
+            border-radius: 15px;
+            background-color: black;
+            color: white;
+        }
+        .link{
+            display: block;
+            color: black;
+            width: 250px;
+            text-align: center;
+            margin-top: 15px;
+        }
+        .link:hover{
+            color: black;
+        }
+        .message{
+            color: red;
+            margin-top: 12px;
+            margin-bottom: -10px;  
+            font-size: 14px;
+        }
+        .green{
+            color: green!important;
+        }
+        .username , .password {
+            position: relative;
+        }
+        i{
+            position: absolute;
+            font-size: 15px;
+            left: 12px;
+            top: 50%;
+            color: darkslategray;
+            transform: translateY(-50%);
+        }
+        
+
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://kit.fontawesome.com/09d198dc53.js" crossorigin="anonymous"></script>
+    <title>Welcome</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="main">
+        <div class="wraber">
+            <h1>Sign in</h1>
+            <div class="cont">
+                <form method="POST">
+                    <div class="username">
+                        <input type="text" name="username" placeholder="Username" class="field" required>
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <br>
+                    <div class="password">
+                        <input type="password" name="password" placeholder="Password" class="field" required>
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <span class="message <%=message === 'Successfully registered!'? 'green' : '' %>"><%=message%></span>
+                    <br>
+                    <input type="submit" value="LOGIN" class="btnn">
+                </form>
+                
+                <a href="registration" class="link">I don't have an account</a>
+                
+            </div>
+        </div>
+    </div>
+</body>
+</html>
