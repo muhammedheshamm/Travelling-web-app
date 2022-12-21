@@ -123,15 +123,22 @@ MongoClient.connect("mongodb://0.0.0.0:27017" , (err,client)=>{
   
   //handeling login
   app.post('/' , async (req, res)=>{
-    let user = req.body.username
-    let pass = req.body.password
-    let data = await collection.findOne({username:user , password:pass})
-    if(data===null){
-      res.render('login' , {message : 'Incorrect username or password'})
-    }
-    else{
+      let user = req.body.username
+      let pass = req.body.password
+    //let data = await collection.findOne({username:user , password:pass})
+    //if(data===null){
+    //  res.render('login' , {message : 'Incorrect username or password'})
+    //}
+    //else{
+    //  req.session.userid=user
+    //  res.render('home' , {user : req.session.userid})
+    //}
+    if(user === 'admin' && pass==='admin'){
       req.session.userid=user
       res.render('home' , {user : req.session.userid})
+    }
+    else{
+      res.render('login' , {message : 'Incorrect username or password'})
     }
   })
 
