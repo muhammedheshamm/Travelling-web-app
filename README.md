@@ -1,10 +1,42 @@
 # Travelling-web-app
-A minimal Full-stack web app for accessing destinations to travel to. Created using nodejs, express and mongodb
 
-## How to run the app
--Clone this repo to your local PC 
--Make sure you have node and mongodb installed on your device
--open up MongoDBCompass and create database called 'myDB'
--in this database create new collection called 'myCollection'
--go to your terminal and type node app then press enter
--go to your browser and go to http://localhost:3000/ 
+A minimal Full-stack web app for accessing destinations to travel to and adding destinations to the user's want to go list. Created using ejs, nodejs, express and mongodb
+
+
+## Features
+
+- Search with any substring
+- Adding destenations to list
+- Login and register
+
+
+## Run Locally
+
+Clone the project
+
+```bash
+  git clone https://github.com/muhammedheshamm/Travelling-web-app.git
+```
+
+Go to the project directory
+
+```bash
+  cd Travelling-web-app
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  node app
+```
+
+
+## Feedback
+
+If you have any feedback, please reach out to me at muhammedheshamm1@gmail.com
