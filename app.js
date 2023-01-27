@@ -2,10 +2,8 @@ const express = require('express');
 const path = require('path');
 const MongoClient= require('mongodb').MongoClient;
 const app = express();
-const alert = require('alert')
 const session = require('express-session')
 const flash = require('connect-flash');
-const PORT = process.env.PORT || 3000;
 let age = 1000 * 60 * 60 
 let listOfWanttogo = []
 
@@ -95,7 +93,7 @@ app.get('/rome', function(req,res){
 
 app.get('/home', function(req,res){
   if(req.session.userid)
-    res.render('home');
+    res.render('home' , {user : req.session.userid});
   else
     res.redirect('/')
 });
@@ -116,87 +114,80 @@ app.get('/searchresults', function(req,res){
 
 
 
-//MongoClient.connect("mongodb://0.0.0.0:27017" , (err,client)=>{
+MongoClient.connect("mongodb://0.0.0.0:27017" , (err,client)=>{
   //cheking for errors
-//  if(err) console.log(err);
+  if(err) console.log(err);
   //declaring the collection which we will use
-//  let collection=client.db('myDB').collection('myCollection');
+  let collection=client.db('myDB').collection('myCollection');
   
   //handeling login
   app.post('/' , async (req, res)=>{
-      let user = req.body.username
-      let pass = req.body.password
-    //let data = await collection.findOne({username:user , password:pass})
-    //if(data===null){
-    //  res.render('login' , {message : 'Incorrect username or password'})
-    //}
-    //else{
-    //  req.session.userid=user
-    //  res.render('home' , {user : req.session.userid})
-    //}
-    if(user === 'admin' && pass==='admin'){
+    let user = req.body.username
+    let pass = req.body.password
+    let data = await collection.findOne({username:user , password:pass})
+    if(data===null){
+      res.render('login' , {message : 'Incorrect username or password'})
+    }
+    else{
       req.session.userid=user
       res.render('home' , {user : req.session.userid})
     }
-    else{
-      res.render('login' , {message : 'Incorrect username or password'})
-    }
   })
 
-//   //handling registeration
-//   app.post('/registration', async (req, res) =>{
-//     let user = req.body.username
-//     let pass = req.body.password
-//     let data = await collection.findOne({username:user})
-//     if(user==="" || pass===""){
-//       res.render('registration' , {message : 'Cannot enter empty fields'})
-//     }
-//     else
-//       if(data===null){
-//         collection.insertOne({username:user , password: pass , wanttogo: []})
-//         req.flash('message' , 'Successfully registered!')
-//         res.redirect('/')
+  //handling registeration
+  app.post('/registration', async (req, res) =>{
+    let user = req.body.username
+    let pass = req.body.password
+    let data = await collection.findOne({username:user})
+    if(user==="" || pass===""){
+      res.render('registration' , {message : 'Cannot enter empty fields'})
+    }
+    else
+      if(data===null){
+        collection.insertOne({username:user , password: pass , wanttogo: []})
+        req.flash('message' , 'Successfully registered!')
+        res.redirect('/')
         
-//       }
-//       else{
-//         res.render('registration' , {message :`${user} already exists`})
-//       }
+      }
+      else{
+        res.render('registration' , {message :`${user} already exists`})
+      }
   
-//   })
+  })
 
-//   app.post('/wanttogo' , async(req , res)=>{
-//     listOfWanttogo= [...(await collection.findOne({username: req.session.userid})).wanttogo]
-//     let found=false
-//     let item = req.body
-//     for(let i=0;i<listOfWanttogo.length ; i++){
-//       if(listOfWanttogo[i].name === item.name){
-//         found=true
-//         break
-//       } 
-//     }
-//     if(!found){
-//       collection.updateOne({username : req.session.userid} , { $push: { "wanttogo" : item  } })
-//       req.flash('msg' , 'Successfully Added!')
-//       res.redirect(item.href)
-//     }
-//     else{
-//       req.flash('msg' , 'This destination is already in your want-to-go list!')
-//       res.redirect(item.href)
-//     }
+  app.post('/wanttogo' , async(req , res)=>{
+    listOfWanttogo= [...(await collection.findOne({username: req.session.userid})).wanttogo]
+    let found=false
+    let item = req.body
+    for(let i=0;i<listOfWanttogo.length ; i++){
+      if(listOfWanttogo[i].name === item.name){
+        found=true
+        break
+      } 
+    }
+    if(!found){
+      collection.updateOne({username : req.session.userid} , { $push: { "wanttogo" : item  } })
+      req.flash('msg' , 'Successfully Added!')
+      res.redirect(item.href)
+    }
+    else{
+      req.flash('msg' , 'This destination is already in your want-to-go list!')
+      res.redirect(item.href)
+    }
   
-//   })  
+  })  
 
 
-//   app.get('/wanttogo', async function(req,res){
-//     if(req.session.userid){
-//       listOfWanttogo = [...(await collection.findOne({username: req.session.userid})).wanttogo]  
-//       res.render('wanttogo' , {listOfWanttogo : listOfWanttogo})
-//     }
-//     else
-//       res.redirect('/')
-//   });
+  app.get('/wanttogo', async function(req,res){
+    if(req.session.userid){
+      listOfWanttogo = [...(await collection.findOne({username: req.session.userid})).wanttogo]  
+      res.render('wanttogo' , {listOfWanttogo : listOfWanttogo})
+    }
+    else
+      res.redirect('/')
+  });
 
-// })
+})
 
 //array with all destenations
 const all = [{name:'Inca Trail to Machu Picchu', href:'inca'}, 
@@ -224,7 +215,4 @@ app.get('/logout',(req,res) => {
 });
 
 
-
-app.listen(PORT, () => {
-  console.log(`server started on port ${PORT}`);
-});
+app.listen(3000);
